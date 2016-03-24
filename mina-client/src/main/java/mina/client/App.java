@@ -8,7 +8,7 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
 public class App {
-	public static final int CONNECT_TIMEOUT = 10000;
+	public static final int CONNECT_TIMEOUT = 100000;
 
 	public static void main(String[] args) {
 		NioSocketConnector connector = new NioSocketConnector();
@@ -25,7 +25,6 @@ public class App {
 		future.awaitUninterruptibly();
 		session = future.getSession();
 
-		// wait until the summation is done
 		session.getCloseFuture().awaitUninterruptibly();
 		connector.dispose();
 	}

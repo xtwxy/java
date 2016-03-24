@@ -1,9 +1,6 @@
 package mina.client;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.nio.charset.Charset;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
@@ -56,6 +53,6 @@ public class LoopbackHandler extends IoHandlerAdapter {
     public void sessionIdle( IoSession session, IdleStatus status ) throws Exception
     {
         System.out.println( "IDLE " + session.getIdleCount( status ));
-    }
+    }  
 
 }
