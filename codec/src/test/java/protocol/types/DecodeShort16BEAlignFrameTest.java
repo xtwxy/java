@@ -41,7 +41,7 @@ public class DecodeShort16BEAlignFrameTest extends TestCase {
 		});
 		
 		int offset = 0;
-		short16BE.reset();
+		short16BE.initValue();
 		CompletionStatus s = new CompletionStatus();
 		while(true) {
 			int offsetAfter = 0;
@@ -59,7 +59,7 @@ public class DecodeShort16BEAlignFrameTest extends TestCase {
 		}
 		assertEquals(true, s.isCompleted());
 		assertEquals(true, updated);
-		assertEquals(0x727e, (short)short16BE.value());
+		assertEquals(0x727e, (short)short16BE.getValue());
 		assertEquals(3, offset);
 	}
 }

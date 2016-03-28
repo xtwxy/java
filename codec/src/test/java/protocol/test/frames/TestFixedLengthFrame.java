@@ -7,10 +7,10 @@ import protocol.ByteCodecable;
 import protocol.CodecException;
 import protocol.CompletionCallback;
 import protocol.CompletionStatus;
+import protocol.DefaultInitializer;
 import protocol.Validator;
 import protocol.types.Byte8;
 import protocol.types.Integer32LE;
-import protocol.types.Resetter;
 import protocol.types.Short16BE;
 import protocol.types.Short16LE;
 
@@ -92,11 +92,11 @@ public class TestFixedLengthFrame implements ByteCodecable {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<?> value() {
+	public List<?> getValue() {
 		@SuppressWarnings("rawtypes")
 		ArrayList l = new ArrayList();	
 		for(ByteCodecable bc : frameElements) {
-			l.add(bc.value());
+			l.add(bc.getValue());
 		}
 		return l;
 	}
@@ -118,20 +118,20 @@ public class TestFixedLengthFrame implements ByteCodecable {
 	}
 
 	@Override
-	public void reset() {
+	public void initValue() {
 		decodeElementIndex = 0;
 		for(ByteCodecable bc : frameElements) {
-			bc.reset();
+			bc.initValue();
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void value(Object v) {
+	public void setValue(Object v) {
 		frameElements = (ArrayList<ByteCodecable>)v;
 	}
 
 	@Override
-	public void setResetter(Resetter r) {
+	public void onInitialize(DefaultInitializer r) {
 	}
 }

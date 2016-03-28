@@ -44,7 +44,7 @@ public class DecodeInt32LEAlignFrameTest extends TestCase {
 		});
 		
 		int offset = 0;
-		int32LE.reset();
+		int32LE.initValue();
 		CompletionStatus s = new CompletionStatus();
 		while(true) {
 			int offsetAfter = 0;
@@ -59,7 +59,7 @@ public class DecodeInt32LEAlignFrameTest extends TestCase {
 		}
 		assertEquals(true, s.isCompleted());
 		assertEquals(true, updated);
-		assertEquals(0x017e7276, (int)int32LE.value());
+		assertEquals(0x017e7276, (int)int32LE.getValue());
 		assertEquals(5, offset);
 	}
 }

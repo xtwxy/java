@@ -8,6 +8,7 @@ import java.util.Observer;
 import protocol.ByteCodecable;
 import protocol.CodecException;
 import protocol.CompletionCallback;
+import protocol.DefaultInitializer;
 import protocol.Validator;
 
 public class Byte8 extends Observable implements ByteCodecable, Observer {
@@ -20,7 +21,7 @@ public class Byte8 extends Observable implements ByteCodecable, Observer {
 	public Byte8(final byte b) {
 		this();
 		value = b;
-		resetter = new Resetter(b);
+		resetter = new DefaultInitializer(b);
 		validators.add(new Validator() {
 
 			@Override
@@ -65,12 +66,12 @@ public class Byte8 extends Observable implements ByteCodecable, Observer {
 
 
 	@Override
-	public Byte value() {
+	public Byte getValue() {
 		return value;
 	}
 	
 	@Override
-	public void value(Object v) {
+	public void setValue(Object v) {
 		value = (Byte)v;
 	}
 
@@ -106,20 +107,20 @@ public class Byte8 extends Observable implements ByteCodecable, Observer {
 	private List<Validator> validators;
 
 	private static final int SIZE = 1;
-	private Resetter resetter = new Resetter(){
+	private DefaultInitializer resetter = new DefaultInitializer(){
 		@Override
-		public Object reset() {
+		public Object initialValue() {
 			return value;
 		}
 	};
 	
 	@Override
-	public void reset() {
-		value = (Byte) resetter.reset();
+	public void initValue() {
+		value = (Byte) resetter.initialValue();
 	}
 
 	@Override
-	public void setResetter(Resetter r) {
+	public void onInitialize(DefaultInitializer r) {
 		resetter = r;
 	}
 }

@@ -88,7 +88,7 @@ public class DecodeElementArrayAlignFrameTest extends TestCase {
 		ElementArray ea = new ElementArray(elements);
 		
 		int offset = 0;
-		ea.reset();
+		ea.initValue();
 		offset = ShiftByteCodec.decode(ea, input, offset, input.length, new CompletionCallback() {
 
 			@Override

@@ -15,7 +15,7 @@ public class FrameEncodeTest extends TestCase {
 	private static final int BUFFER_SIZE = 2048;
 	private boolean complete = false;
 	
-	public void testEncode() {
+	public void testEncode() throws CodecException {
 		ElementArray data = new ElementArray();
 		Frame f = Frame.createForEncoding((byte) 1, (byte) 1, (byte) 1, data);
 		byte[] buffer = new byte[BUFFER_SIZE];
@@ -29,6 +29,7 @@ public class FrameEncodeTest extends TestCase {
 			
 		};
 		int offset = 0;
+		f.reset();
 		try {
 			offset = f.encode(buffer, offset, buffer.length, h);
 			StringBuffer sb = new StringBuffer();

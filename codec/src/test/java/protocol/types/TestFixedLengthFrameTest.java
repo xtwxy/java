@@ -95,7 +95,7 @@ public class TestFixedLengthFrameTest extends TestCase {
 		}
 		logger.info(sb.toString());
 		
-		f.reset();
+		f.initValue();
 		int offset = 0;
 		while(true) {
 			int offsetAfter = 0;

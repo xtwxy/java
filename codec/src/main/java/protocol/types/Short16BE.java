@@ -8,6 +8,7 @@ import java.util.Observer;
 import protocol.ByteCodecable;
 import protocol.CodecException;
 import protocol.CompletionCallback;
+import protocol.DefaultInitializer;
 import protocol.Validator;
 
 public class Short16BE extends Observable implements ByteCodecable, Observer {
@@ -20,7 +21,7 @@ public class Short16BE extends Observable implements ByteCodecable, Observer {
 	public Short16BE(final short s) {
 		this();
 		value = s;
-		resetter = new Resetter(s);
+		resetter = new DefaultInitializer(s);
 		validators.add(new Validator() {
 
 			@Override
@@ -66,12 +67,12 @@ public class Short16BE extends Observable implements ByteCodecable, Observer {
 
 
 	@Override
-	public Short value() {
+	public Short getValue() {
 		return value;
 	}
 	
 	@Override
-	public void value(Object v) {
+	public void setValue(Object v) {
 		value = (Short)v;
 	}
 
@@ -108,20 +109,20 @@ public class Short16BE extends Observable implements ByteCodecable, Observer {
 
 	private static final int SIZE = 2;
 	
-	private Resetter resetter = new Resetter(){
+	private DefaultInitializer resetter = new DefaultInitializer(){
 		@Override
-		public Object reset() {
+		public Object initialValue() {
 			return value;
 		}
 	};
 	
 	@Override
-	public void reset() {
-		value = (Short) resetter.reset();
+	public void initValue() {
+		value = (Short) resetter.initialValue();
 	}
 
 	@Override
-	public void setResetter(Resetter r) {
+	public void onInitialize(DefaultInitializer r) {
 		resetter = r;
 	}
 }

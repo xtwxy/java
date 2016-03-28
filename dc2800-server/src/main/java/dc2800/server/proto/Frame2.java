@@ -17,12 +17,12 @@ import protocol.types.Resetter;
 import protocol.types.Short16LE;
 import protocol.utils.ShiftByteCodec;
 
-public class Frame {
-	static Logger logger = LoggerFactory.getLogger(Frame.class);
+public class Frame2 {
+	static Logger logger = LoggerFactory.getLogger(Frame2.class);
 	
 	private ElementArray elementArray;
 	
-	public Frame(ElementArray ea) {
+	public Frame2(ElementArray ea) {
 		
 		this.elementArray = ea;
 	}
@@ -34,7 +34,7 @@ public class Frame {
 		return ShiftByteCodec.encode(elementArray, input, offset, length, h);
 	}
 	
-	public static Frame createForDecoding() throws CodecException {
+	public static Frame2 createForDecoding() throws CodecException {
 		final ByteCodecable[] bc = createBasic();
 		Short16LE lenShort = new Short16LE();
 		ElementArray data = new ElementArray();
@@ -68,10 +68,10 @@ public class Frame {
 		
 		bc[6] = checksum;
 		
-		return new Frame(new ElementArray(bc));
+		return new Frame2(new ElementArray(bc));
 	} 
 	
-	public static Frame createForDecoding(final byte addr, final byte batteryNo, final byte cmd) throws CodecException {
+	public static Frame2 createForDecoding(final byte addr, final byte batteryNo, final byte cmd) throws CodecException {
 		final ByteCodecable[] bc = createBasic(addr, batteryNo, cmd);
 		Short16LE lenShort = new Short16LE();
 		ElementArray data = new ElementArray();
@@ -82,11 +82,11 @@ public class Frame {
 		bc[5] = data;
 		
 		bc[6] = new Short16LE((short)checksum(bc));
-		return new Frame(new ElementArray(bc));
+		return new Frame2(new ElementArray(bc));
 	} 
 	
 	
-	public static Frame createForEncoding(final byte addr, final byte batteryNo, final byte cmd, final ElementArray data) throws CodecException {
+	public static Frame2 createForEncoding(final byte addr, final byte batteryNo, final byte cmd, final ElementArray data) throws CodecException {
 		final ByteCodecable[] bc = createBasic(addr, batteryNo, cmd);
 
 		final int len = (short) data.size();
@@ -115,7 +115,7 @@ public class Frame {
 		// 7. 2 byte short CHECKSUM
 		bc[6] = new Short16LE((short)checksum(bc));
 		
-		return new Frame(new ElementArray(bc));
+		return new Frame2(new ElementArray(bc));
 	}
 	
 	private static ByteCodecable[] createBasic() {

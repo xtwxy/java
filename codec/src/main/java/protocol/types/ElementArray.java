@@ -8,23 +8,26 @@ import protocol.ByteCodecable;
 import protocol.CodecException;
 import protocol.CompletionCallback;
 import protocol.CompletionStatus;
+import protocol.DefaultInitializer;
 import protocol.Validator;
 
 public class ElementArray extends Observable implements ByteCodecable, Observer {
 
 	private ByteCodecable[] value;
-	private Resetter resetter = new Resetter();
+	private DefaultInitializer resetter = new DefaultInitializer();
 	private LinkedList<Validator> validators;
 	private int decodeElementIndex = 0;
 
 	public ElementArray() {
-		value = new ByteCodecable[0];
+		ByteCodecable[] bc = new ByteCodecable[0];
+		value = bc;
+		resetter = new DefaultInitializer(bc);
 		validators = new LinkedList<Validator>();
 	}
 	public ElementArray(ByteCodecable[] b) {
 		this();
 		value = b;
-		resetter = new Resetter(b);
+		resetter = new DefaultInitializer(b);
 	}
 
 	@Override
@@ -81,12 +84,12 @@ public class ElementArray extends Observable implements ByteCodecable, Observer 
 	}
 
 	@Override
-	public Object value() {
+	public Object getValue() {
 		return value;
 	}
 	
 	@Override
-	public void value(Object v) {
+	public void setValue(Object v) {
 		value = (ByteCodecable[])v;
 	}
 
@@ -108,16 +111,16 @@ public class ElementArray extends Observable implements ByteCodecable, Observer 
 	}
 	
 	@Override
-	public void reset() {
+	public void initValue() {
 		decodeElementIndex = 0;
-		value = (ByteCodecable[])resetter.reset();
+		value = (ByteCodecable[])resetter.initialValue();
 		for(ByteCodecable bc : value) {
-			bc.reset();
+			bc.initValue();
 		}
 	}
 
 	@Override
-	public void setResetter(Resetter r) {
+	public void onInitialize(DefaultInitializer r) {
 		resetter = r;
 	}
 }

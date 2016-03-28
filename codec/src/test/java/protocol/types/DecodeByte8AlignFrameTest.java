@@ -43,7 +43,7 @@ public class DecodeByte8AlignFrameTest extends TestCase {
 		});
 		
 		int offset = 0;
-		byte8.reset();
+		byte8.initValue();
 		CompletionStatus s = new CompletionStatus();
 		while(true) {
 			int offsetAfter = 0;
@@ -58,7 +58,7 @@ public class DecodeByte8AlignFrameTest extends TestCase {
 		}
 		assertEquals(true, s.isCompleted());
 		assertEquals(true, updated);
-		assertEquals(0x7e, (byte)byte8.value());
+		assertEquals(0x7e, (byte)byte8.getValue());
 		assertEquals(3, offset);
 	}
 }
