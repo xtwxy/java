@@ -10,7 +10,7 @@ public class Resetter {
 	public Resetter() {
 	}
 
-	Object reset() {
+	public Object reset() {
 		return v;
 	}
 }

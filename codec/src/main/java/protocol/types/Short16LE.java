@@ -7,6 +7,7 @@ import java.util.Observer;
 
 import protocol.ByteCodecable;
 import protocol.CodecException;
+import protocol.CompletionCallback;
 import protocol.Validator;
 
 public class Short16LE extends Observable implements ByteCodecable, Observer {
@@ -16,26 +17,38 @@ public class Short16LE extends Observable implements ByteCodecable, Observer {
 		validators = new LinkedList<Validator>();
 	}
 	
-	public Short16LE(short b) {
+	public Short16LE(final short s) {
 		this();
-		value = b;
-		resetter = new Resetter(b);
+		value = s;
+		resetter = new Resetter(s);
+		validators.add(new Validator() {
+
+			@Override
+			public void validate(Object value) throws Exception {
+				if(s != (Short)value) {
+					throw new CodecException("value != " + s);
+				}
+			}
+			
+		});
 	}
 	
 	@Override
-	public int encode(byte[] bytes, int offset, int length) throws CodecException {
+	public int encode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException {
 		if (length - offset < SIZE) {
+			h.completed(false);
 			return offset;
 		}
 		bytes[offset] = (byte)(0xff & value);
 		bytes[offset + 1] = (byte)(0xff & value >> 8);
-		
+		h.completed(true);
 		return offset + SIZE;
 	}
 
 	@Override
-	public int decode(byte[] bytes, int offset, int length) throws CodecException {
+	public int decode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException {
     	if (length - offset < SIZE) {
+    		h.completed(false);
 			return offset;
 		}
     	short decodedValue = (short)((0xff & bytes[offset]) | (0xff & bytes[offset + 1]) << 8);
@@ -47,6 +60,7 @@ public class Short16LE extends Observable implements ByteCodecable, Observer {
 		}
 		setChanged();
 		notifyObservers(value);
+		h.completed(true);
 		return offset + SIZE;
 	}
 
@@ -95,7 +109,8 @@ public class Short16LE extends Observable implements ByteCodecable, Observer {
 	private static final int SIZE = 2;
 	
 	private Resetter resetter = new Resetter(){
-		Object reset() {
+		@Override
+		public Object reset() {
 			return value;
 		}
 	};

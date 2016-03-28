@@ -7,6 +7,7 @@ import java.util.Observer;
 
 import protocol.ByteCodecable;
 import protocol.CodecException;
+import protocol.CompletionCallback;
 import protocol.Validator;
 
 public class Integer32LE extends Observable implements ByteCodecable, Observer {
@@ -16,28 +17,40 @@ public class Integer32LE extends Observable implements ByteCodecable, Observer {
 		validators = new LinkedList<Validator>();
 	}
 	
-	public Integer32LE(int b) {
+	public Integer32LE(final int i) {
 		this();
-		value = b;
-		resetter = new Resetter(b);
+		value = i;
+		resetter = new Resetter(i);
+		validators.add(new Validator() {
+
+			@Override
+			public void validate(Object value) throws Exception {
+				if(i != (Integer)value) {
+					throw new CodecException("value != " + i);
+				}
+			}
+			
+		});
 	}
 	
 	@Override
-	public int encode(byte[] bytes, int offset, int length) throws CodecException {
+	public int encode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException {
 		if (length - offset < SIZE) {
+			h.completed(false);
 			return offset;
 		}
 		bytes[offset] = (byte)(0xff & value);
 		bytes[offset + 1] = (byte)(0xff & value >> 8);
 		bytes[offset + 2] = (byte)(0xff & value >> 16);
 		bytes[offset + 3] = (byte)(0xff & value >> 24);
-		
+		h.completed(true);
 		return offset + SIZE;
 	}
 
 	@Override
-	public int decode(byte[] bytes, int offset, int length) throws CodecException {
+	public int decode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException {
     	if (length - offset < SIZE) {
+    		h.completed(false);
 			return offset;
 		}
     	int decodedValue = (
@@ -54,6 +67,7 @@ public class Integer32LE extends Observable implements ByteCodecable, Observer {
 		}
 		setChanged();
 		notifyObservers(value);
+		h.completed(true);
 		return offset + SIZE;
 	}
 
@@ -102,7 +116,8 @@ public class Integer32LE extends Observable implements ByteCodecable, Observer {
 
 	private static final int SIZE = 4;
 	private Resetter resetter = new Resetter(){
-		Object reset() {
+		@Override
+		public Object reset() {
 			return value;
 		}
 	};

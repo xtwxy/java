@@ -6,6 +6,8 @@ import java.util.Observer;
 
 import protocol.ByteCodecable;
 import protocol.CodecException;
+import protocol.CompletionCallback;
+import protocol.CompletionStatus;
 import protocol.Validator;
 
 public class ElementArray extends Observable implements ByteCodecable, Observer {
@@ -16,7 +18,7 @@ public class ElementArray extends Observable implements ByteCodecable, Observer 
 	private int decodeElementIndex = 0;
 
 	public ElementArray() {
-		value = null;
+		value = new ByteCodecable[0];
 		validators = new LinkedList<Validator>();
 	}
 	public ElementArray(ByteCodecable[] b) {
@@ -24,6 +26,7 @@ public class ElementArray extends Observable implements ByteCodecable, Observer 
 		value = b;
 		resetter = new Resetter(b);
 	}
+
 	@Override
 	public void update(Observable obs, Object arg) {
 		if(arg instanceof Integer) {
@@ -37,12 +40,14 @@ public class ElementArray extends Observable implements ByteCodecable, Observer 
 	}
 
 	@Override
-	public int encode(byte[] bytes, int offset, int length) throws CodecException {
+	public int encode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException {
 		int decodedOffset = offset;
+		CompletionStatus s = new CompletionStatus();
 		while(decodeElementIndex < value.length) {
 			ByteCodecable bc = value[decodeElementIndex];
-			int off = bc.encode(bytes, decodedOffset, length);
-			if(off == decodedOffset) {
+			int off = bc.encode(bytes, decodedOffset, length, s);
+			if(!s.isCompleted()) {
+				h.completed(false);
 				return off;
 			} else {
 				decodeElementIndex += 1;
@@ -50,23 +55,28 @@ public class ElementArray extends Observable implements ByteCodecable, Observer 
 			}
 		}
 		decodeElementIndex = 0;
+		h.completed(true);
 		return decodedOffset;
 	}
 
 	@Override
-	public int decode(byte[] bytes, int offset, int length) throws CodecException {
+	public int decode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException {
 		if(length - offset < size()) {
+			h.completed(false);
 			return offset;
 		}
 		int decodedOffset = offset;
+		CompletionStatus s = new CompletionStatus();
 		for(ByteCodecable bc : value) {
-			int off = bc.decode(bytes, decodedOffset, length);
-			if(off == decodedOffset) {
+			int off = bc.decode(bytes, decodedOffset, length, s);
+			if(!s.isCompleted()) {
+				h.completed(true);
 				return off;
 			} else {
 				decodedOffset = off;
 			}
 		}
+		h.completed(true);
 		return decodedOffset;
 	}
 
@@ -93,7 +103,10 @@ public class ElementArray extends Observable implements ByteCodecable, Observer 
 		}
 		return length;
 	}
-
+	public void setAt(int index, ByteCodecable value) {
+		this.value[index] = value;
+	}
+	
 	@Override
 	public void reset() {
 		decodeElementIndex = 0;

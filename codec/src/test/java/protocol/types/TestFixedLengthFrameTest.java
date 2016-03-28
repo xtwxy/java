@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import junit.framework.TestCase;
 import protocol.CodecException;
+import protocol.CompletionStatus;
 import protocol.Validator;
 import protocol.test.frames.TestFixedLengthFrame;
 
@@ -84,7 +85,9 @@ public class TestFixedLengthFrameTest extends TestCase {
 				);
 		logger.info("f.size() = " + f.size());
 		byte[] output = new byte[f.size()];
-		f.encode(output, 0, output.length);
+		CompletionStatus s = new CompletionStatus();
+		f.encode(output, 0, output.length, s);
+		assertEquals(true, s.isCompleted());
 		
 		StringBuffer sb = new StringBuffer();
 		for(byte c : output) {
@@ -97,7 +100,8 @@ public class TestFixedLengthFrameTest extends TestCase {
 		while(true) {
 			int offsetAfter = 0;
 			try {
-				offsetAfter = f.decode(input, offset, input.length);
+				offsetAfter = f.decode(input, offset, input.length, s);
+				assertEquals(true, s.isCompleted());
 			} catch (CodecException e) {
 				offset += 1;
 				continue;
@@ -108,7 +112,8 @@ public class TestFixedLengthFrameTest extends TestCase {
 		
 		logger.info("f.size() = " + f.size());
 		output = new byte[f.size()];
-		f.encode(output, 0, output.length);
+		f.encode(output, 0, output.length, s);
+		assertEquals(true, s.isCompleted());
 		sb = new StringBuffer();
 		for(byte c : output) {
 			sb.append(Hex.encodeHexString(new byte[] {c})).append(" ");

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import junit.framework.TestCase;
 import protocol.CodecException;
+import protocol.CompletionStatus;
 import protocol.Validator;
 
 public class DecodeByte8AlignFrameTest extends TestCase {
@@ -43,10 +44,11 @@ public class DecodeByte8AlignFrameTest extends TestCase {
 		
 		int offset = 0;
 		byte8.reset();
+		CompletionStatus s = new CompletionStatus();
 		while(true) {
 			int offsetAfter = 0;
 			try {
-				offsetAfter = byte8.decode(input, offset, input.length);
+				offsetAfter = byte8.decode(input, offset, input.length, s);
 			} catch (CodecException e) {
 				offset += 1;
 				continue;
@@ -54,6 +56,7 @@ public class DecodeByte8AlignFrameTest extends TestCase {
 			offset = offsetAfter;
 			break;
 		}
+		assertEquals(true, s.isCompleted());
 		assertEquals(true, updated);
 		assertEquals(0x7e, (byte)byte8.value());
 		assertEquals(3, offset);

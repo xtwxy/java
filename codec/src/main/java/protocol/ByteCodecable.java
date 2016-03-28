@@ -13,7 +13,7 @@ public interface ByteCodecable {
 	 * 	the input offset if not encoded, maybe buffer size is too small.
 	 * @throws CodecException if encode failed.
 	 */
-	int encode(byte[] bytes, int offset, int length) throws CodecException;
+	int encode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException;
 	
 	/**
 	 * Decode this object to bytes.
@@ -24,7 +24,7 @@ public interface ByteCodecable {
 	 * 	the input offset if not decoded, maybe more bytes expected.
 	 * @throws CodecException if decode failed.
 	 */
-	int decode(byte[] bytes, int offset, int length) throws CodecException;
+	int decode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException;
 	
 	
 	/**

@@ -5,6 +5,8 @@ import java.util.List;
 
 import protocol.ByteCodecable;
 import protocol.CodecException;
+import protocol.CompletionCallback;
+import protocol.CompletionStatus;
 import protocol.Validator;
 import protocol.types.Byte8;
 import protocol.types.Integer32LE;
@@ -16,7 +18,7 @@ public class TestFixedLengthFrame implements ByteCodecable {
 
 	private ArrayList<ByteCodecable> frameElements = new ArrayList<ByteCodecable>();
 	private int decodeElementIndex = 0;
-	
+
 	public TestFixedLengthFrame(
 			Byte8 soh,
 			Byte8 type,
@@ -46,39 +48,45 @@ public class TestFixedLengthFrame implements ByteCodecable {
 	}
 	
 	@Override
-	public int encode(byte[] bytes, int offset, int length) throws CodecException {
+	public int encode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException {
 		if(length - offset < size()) {
 			return offset;
 		}
 		int decodedOffset = offset;
+		CompletionStatus s = new CompletionStatus();
 		while(decodeElementIndex < frameElements.size()) {
 			ByteCodecable bc = frameElements.get(decodeElementIndex);
-			int off = bc.encode(bytes, decodedOffset, length);
-			if(off == decodedOffset) {
+			int off = bc.encode(bytes, decodedOffset, length, s);
+			if(!s.isCompleted()) {
+				h.completed(false);
 				return off;
 			} else {
 				decodeElementIndex += 1;
 				decodedOffset = off;
 			}
 		}
+		h.completed(true);
 		decodeElementIndex = 0;
 		return decodedOffset;
 	}
 
 	@Override
-	public int decode(byte[] bytes, int offset, int length) throws CodecException {
+	public int decode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException {
 		if(length - offset < size()) {
 			return offset;
 		}
 		int decodedOffset = offset;
+		CompletionStatus s = new CompletionStatus();
 		for(ByteCodecable bc : frameElements) {
-			int off = bc.decode(bytes, decodedOffset, length);
-			if(off == decodedOffset) {
+			int off = bc.decode(bytes, decodedOffset, length, s);
+			if(!s.isCompleted()) {
+				h.completed(false);
 				return off;
 			} else {
 				decodedOffset = off;
 			}
 		}
+		h.completed(true);
 		return decodedOffset;
 	}
 

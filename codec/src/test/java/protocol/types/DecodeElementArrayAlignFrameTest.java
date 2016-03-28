@@ -7,13 +7,15 @@ import org.slf4j.LoggerFactory;
 import junit.framework.TestCase;
 import protocol.ByteCodecable;
 import protocol.CodecException;
+import protocol.CompletionCallback;
 import protocol.Validator;
 import protocol.utils.ShiftByteCodec;
 
 public class DecodeElementArrayAlignFrameTest extends TestCase {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
-
+	boolean decodeCompleted = false;
+	
 	public void testDecode() throws CodecException {
 		byte[] input = new byte[] {
 				0x00,
@@ -87,11 +89,27 @@ public class DecodeElementArrayAlignFrameTest extends TestCase {
 		
 		int offset = 0;
 		ea.reset();
-		offset = ShiftByteCodec.decode(ea, input, offset, input.length);
+		offset = ShiftByteCodec.decode(ea, input, offset, input.length, new CompletionCallback() {
+
+			@Override
+			public void completed(boolean b) {
+				decodeCompleted = b;
+			}
+			
+		});
+		assertEquals(true, decodeCompleted);
 		
 		byte[] output = new byte[ea.size()];
-		ShiftByteCodec.encode(ea, output, 0, output.length);
-		
+		ShiftByteCodec.encode(ea, output, 0, output.length, new CompletionCallback() {
+
+			@Override
+			public void completed(boolean b) {
+				decodeCompleted = b;				
+			}
+			
+		});
+		assertEquals(true, decodeCompleted);
+
 		StringBuffer sb = new StringBuffer();
 		sb.append("input: ");
 		for(byte c : input) {

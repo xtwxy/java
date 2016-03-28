@@ -7,6 +7,7 @@ import java.util.Observer;
 
 import protocol.ByteCodecable;
 import protocol.CodecException;
+import protocol.CompletionCallback;
 import protocol.Validator;
 
 public class Byte8 extends Observable implements ByteCodecable, Observer {
@@ -16,24 +17,37 @@ public class Byte8 extends Observable implements ByteCodecable, Observer {
 		validators = new LinkedList<Validator>();
 	}
 	
-	public Byte8(byte b) {
+	public Byte8(final byte b) {
 		this();
 		value = b;
 		resetter = new Resetter(b);
+		validators.add(new Validator() {
+
+			@Override
+			public void validate(Object value) throws Exception {
+				if(b != (Byte)value) {
+					throw new CodecException("value != " + b);
+				}
+			}
+			
+		});
 	}
 	
 	@Override
-	public int encode(byte[] bytes, int offset, int length) throws CodecException {
+	public int encode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException {
 		if (length - offset < SIZE) {
+			h.completed(false);
 			return offset;
 		}
 		bytes[offset] = value;
+		h.completed(true);
 		return offset + SIZE;
 	}
 
 	@Override
-	public int decode(byte[] bytes, int offset, int length) throws CodecException {
+	public int decode(byte[] bytes, int offset, int length, CompletionCallback h) throws CodecException {
     	if (length - offset < SIZE) {
+    		h.completed(false);
 			return offset;
 		}
 		byte decodedValue = bytes[offset];
@@ -45,6 +59,7 @@ public class Byte8 extends Observable implements ByteCodecable, Observer {
 		}
 		setChanged();
 		notifyObservers(value);
+		h.completed(true);
 		return offset + SIZE;
 	}
 
@@ -92,7 +107,8 @@ public class Byte8 extends Observable implements ByteCodecable, Observer {
 
 	private static final int SIZE = 1;
 	private Resetter resetter = new Resetter(){
-		Object reset() {
+		@Override
+		public Object reset() {
 			return value;
 		}
 	};

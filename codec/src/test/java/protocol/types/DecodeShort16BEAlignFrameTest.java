@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import junit.framework.TestCase;
 import protocol.CodecException;
+import protocol.CompletionStatus;
 import protocol.Validator;
 
 public class DecodeShort16BEAlignFrameTest extends TestCase {
@@ -41,10 +42,11 @@ public class DecodeShort16BEAlignFrameTest extends TestCase {
 		
 		int offset = 0;
 		short16BE.reset();
+		CompletionStatus s = new CompletionStatus();
 		while(true) {
 			int offsetAfter = 0;
 			try {
-				offsetAfter = short16BE.decode(input, offset, input.length);
+				offsetAfter = short16BE.decode(input, offset, input.length, s);
 				if(offsetAfter == 0) {
 					// continue reading more byte...
 				}
@@ -55,6 +57,7 @@ public class DecodeShort16BEAlignFrameTest extends TestCase {
 			offset = offsetAfter;
 			break;
 		}
+		assertEquals(true, s.isCompleted());
 		assertEquals(true, updated);
 		assertEquals(0x727e, (short)short16BE.value());
 		assertEquals(3, offset);
