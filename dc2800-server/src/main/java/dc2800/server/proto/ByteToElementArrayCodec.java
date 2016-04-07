@@ -4,7 +4,10 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+<<<<<<< HEAD
+=======
 import protocol.CodecException;
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 import protocol.CompletionCallback;
 
 public class ByteToElementArrayCodec extends io.netty.handler.codec.ByteToMessageCodec<Frame> {
@@ -71,7 +74,11 @@ public class ByteToElementArrayCodec extends io.netty.handler.codec.ByteToMessag
 		}
 	}
 
+<<<<<<< HEAD
+	private void checkDecoding() {
+=======
 	private void checkDecoding() throws CodecException {
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 		// cannot assuming that a request has been sent before,
 		// since the protocol is request/response style.
 		if(decoding == null) {

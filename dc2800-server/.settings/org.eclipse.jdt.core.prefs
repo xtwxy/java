@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+#Fri Mar 25 16:47:45 CST 2016
+=======
 #Mon Mar 28 16:40:14 CST 2016
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.7
 eclipse.preferences.version=1
 org.eclipse.jdt.core.compiler.source=1.7

@@ -43,7 +43,11 @@ public class DecodeByte8AlignFrameTest extends TestCase {
 		});
 		
 		int offset = 0;
+<<<<<<< HEAD
+		byte8.reset();
+=======
 		byte8.initValue();
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 		CompletionStatus s = new CompletionStatus();
 		while(true) {
 			int offsetAfter = 0;

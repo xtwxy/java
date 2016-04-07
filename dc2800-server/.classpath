@@ -11,11 +11,15 @@
       <attribute value="jar:file:/home/master/.m2/repository/io/netty/netty-all/5.0.0.Alpha2/netty-all-5.0.0.Alpha2-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
+<<<<<<< HEAD
+  <classpathentry kind="var" path="M2_REPO/protocol/codec/1.0-SNAPSHOT/codec-1.0-SNAPSHOT.jar"/>
+=======
   <classpathentry kind="var" path="M2_REPO/protocol/codec/1.0-SNAPSHOT/codec-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/protocol/codec/1.0-SNAPSHOT/codec-1.0-SNAPSHOT-sources.jar">
     <attributes>
       <attribute value="jar:file:/home/master/.m2/repository/protocol/codec/1.0-SNAPSHOT/codec-1.0-SNAPSHOT-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
   <classpathentry kind="var" path="M2_REPO/commons-codec/commons-codec/1.10/commons-codec-1.10.jar" sourcepath="M2_REPO/commons-codec/commons-codec/1.10/commons-codec-1.10-sources.jar">
     <attributes>
       <attribute value="jar:file:/home/master/.m2/repository/commons-codec/commons-codec/1.10/commons-codec-1.10-javadoc.jar!/" name="javadoc_location"/>

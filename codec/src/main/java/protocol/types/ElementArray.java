@@ -8,7 +8,10 @@ import protocol.ByteCodecable;
 import protocol.CodecException;
 import protocol.CompletionCallback;
 import protocol.CompletionStatus;
+<<<<<<< HEAD
+=======
 import protocol.DefaultInitializer;
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 import protocol.Validator;
 
 public class ElementArray extends Observable implements ByteCodecable, Observer {
@@ -19,9 +22,13 @@ public class ElementArray extends Observable implements ByteCodecable, Observer 
 	private int decodeElementIndex = 0;
 
 	public ElementArray() {
+<<<<<<< HEAD
+		value = new ByteCodecable[0];
+=======
 		ByteCodecable[] bc = new ByteCodecable[0];
 		value = bc;
 		resetter = new DefaultInitializer(bc);
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 		validators = new LinkedList<Validator>();
 	}
 	public ElementArray(ByteCodecable[] b) {

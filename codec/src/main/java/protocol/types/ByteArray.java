@@ -7,7 +7,10 @@ import java.util.Observer;
 
 import protocol.ByteCodecable;
 import protocol.CompletionCallback;
+<<<<<<< HEAD
+=======
 import protocol.DefaultInitializer;
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 import protocol.CodecException;
 import protocol.Validator;
 
@@ -21,7 +24,11 @@ public class ByteArray extends Observable implements ByteCodecable, Observer {
 	public ByteArray(final byte[] b) {
 		this();
 		value = b;
+<<<<<<< HEAD
+		resetter = new Resetter(b);
+=======
 		resetter = new DefaultInitializer(b);
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 	}
 	
 	@Override
@@ -68,12 +75,20 @@ public class ByteArray extends Observable implements ByteCodecable, Observer {
 
 
 	@Override
+<<<<<<< HEAD
+	public byte[] value() {
+=======
 	public byte[] getValue() {
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 		return value;
 	}
 	
 	@Override
+<<<<<<< HEAD
+	public void value(Object v) {
+=======
 	public void setValue(Object v) {
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 		value = (byte[])v;
 	}
 
@@ -109,20 +124,35 @@ public class ByteArray extends Observable implements ByteCodecable, Observer {
 	private byte[] value;
 	private List<Validator> validators;
 
+<<<<<<< HEAD
+	private Resetter resetter = new Resetter(){
+		@Override
+		public Object reset() {
+=======
 	private DefaultInitializer resetter = new DefaultInitializer(){
 		@Override
 		public Object initialValue() {
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 			return value;
 		}
 	};
 	
 	@Override
+<<<<<<< HEAD
+	public void reset() {
+		value = (byte[]) resetter.reset();
+	}
+
+	@Override
+	public void setResetter(Resetter r) {
+=======
 	public void initValue() {
 		value = (byte[]) resetter.initialValue();
 	}
 
 	@Override
 	public void onInitialize(DefaultInitializer r) {
+>>>>>>> 5ee300bc956ea05fc6dcd5e077cdc714fb7c4b6d
 		resetter = r;
 	}
 }
