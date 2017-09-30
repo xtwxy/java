@@ -28,7 +28,6 @@ public class ByteToElementArrayCodec extends io.netty.handler.codec.ByteToMessag
 	
 	@Override
 	protected void encode(ChannelHandlerContext ctx, Frame msg, ByteBuf out) throws Exception {
-		
 	}
 
 	@Override
