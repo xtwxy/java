@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/eclipse-jee.feature_1.0.0.qualifier.jar" id="eclipse-jee.feature" version="1.0.0.qualifier">
+      <category name="eclipse-jee"/>
+   </feature>
+   <category-def name="eclipse-jee" label="Customized Eclipse JEE"/>
+</site>
