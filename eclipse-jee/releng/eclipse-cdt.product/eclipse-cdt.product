@@ -40,7 +40,6 @@
       <feature id="org.eclipse.egit"/>
       <feature id="org.eclipse.cdt"/>
       <feature id="org.eclipse.cdt.autotools"/>
-      <feature id="org.eclipse.cdt.cmake"/>
       <feature id="org.eclipse.linuxtools.changelog"/>
       <feature id="org.eclipse.linuxtools.man"/>
       <feature id="org.eclipse.linuxtools.rpm"/>
