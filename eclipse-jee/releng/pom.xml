@@ -14,6 +14,8 @@
     </parent>
     <modules>
         <module>eclipse-jee.update</module>
-        <module>eclipse-jee.product</module>
+        <module>scala-ide.product</module>
+        <module>eclipse-cdt.product</module>
+        <module>linuxtools.product</module>
     </modules>
 </project>

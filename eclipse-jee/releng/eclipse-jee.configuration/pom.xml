@@ -10,7 +10,7 @@
 	<properties>
 		<tycho.version>0.25.0</tycho.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<eclipse-repo.url>http://download.eclipse.org/releases/neon</eclipse-repo.url>
+		<eclipse-repo.url>http://download.eclipse.org/releases/oxygen</eclipse-repo.url>
 		<orbit-repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit-repo.url>
 		<vrapper-repo.url>http://vrapper.sourceforge.net/update-site/stable</vrapper-repo.url>
         <texlipse-repo.url>http://download.eclipse.org/texlipse/2.0.0/</texlipse-repo.url>
