@@ -3,7 +3,6 @@
 
 <product name="Customized Eclipse JEE" uid="eclipse-jee" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
-
    <configIni use="default">
    </configIni>
 
@@ -25,10 +24,8 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
    </plugins>
@@ -36,7 +33,12 @@
    <features>
       <feature id="eclipse-jee.feature" version="1.0.0.qualifier"/>
       <feature id="net.sourceforge.vrapper"/>
-      <feature id="org.eclipse.texlipse.main" />
+      <feature id="org.eclipse.texlipse.main"/>
+      <feature id="org.scala-ide.scala212.feature"/>
+      <feature id="org.scala-ide.sdt.dev.feature"/>
+      <feature id="org.scala-ide.sdt.feature"/>
+      <feature id="org.scala-ide.sdt.weaving.feature"/>
+      <feature id="org.scala-ide.zinc.feature"/>
       <feature id="org.eclipse.equinox.p2.user.ui"/>
       <feature id="org.eclipse.ecf.filetransfer.httpclient4.feature"/>
       <feature id="org.eclipse.help"/>
